@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">FoodSearch</string>
+    <string name="SearchWord">検索ワード</string>
 </resources>
