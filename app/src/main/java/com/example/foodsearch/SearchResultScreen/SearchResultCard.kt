@@ -1,6 +1,7 @@
 package com.example.foodsearch.SearchResultScreen
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,11 +24,12 @@ import androidx.compose.ui.unit.sp
 import com.example.foodsearch.R
 
 @Composable
-fun SearchResultCard(restaurant: Restaurant) {
+fun SearchResultCard(restaurant: Restaurant, onCardClick: (Restaurant) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(16.dp)
+            .clickable { onCardClick(restaurant) },
         elevation = CardDefaults.cardElevation(
             defaultElevation = 4.dp
         )
@@ -65,15 +67,20 @@ fun SearchResultCard(restaurant: Restaurant) {
     }
 }
 
-@Preview
-@Composable
-fun PreSearchResultCard() {
-    val restaurantList = listOf(
-        Restaurant("Restaurant 1", R.drawable.ic_launcher_background, "Catch Copy 1"),
-        Restaurant("Restaurant 2", R.drawable.ic_launcher_background, "Catch Copy 2"),
-        // 他のレストランデータも同様に追加
-    )
-
-    // RestaurantList を呼び出す
-    SearchResultCardList(restaurantList = restaurantList)
-}
+//@Preview
+//@Composable
+//fun PreSearchResultCard() {
+//    val restaurantList = listOf(
+//        Restaurant("Restaurant 1", R.drawable.ic_launcher_background, "Catch Copy 1"),
+//        Restaurant("Restaurant 2", R.drawable.ic_launcher_background, "Catch Copy 2"),
+//        // 他のレストランデータも同様に追加
+//    )
+//
+//    // RestaurantList を呼び出す
+//    SearchResultCardList(restaurantList = restaurantList,
+//        onCardClick = { clickedRestaurant ->
+//            // カードがクリックされたときの処理
+//            //onCardClick(clickedRestaurant)
+//        }
+//    )
+//}

@@ -4,26 +4,46 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun SearchScreen() {
+fun SearchScreen(navController: NavController) {
+    var searchWord by remember { mutableStateOf("") }
+    var searchRange by remember { mutableStateOf("1000m")}
     Column(
         modifier = Modifier
             .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TopBar()
-        SearchBar()
+        SearchBar(
+            SearchWord = searchWord,
+            onSearch = {
+                // 画面遷移を行う
+                navController.navigate("SearchResultScreen/$searchWord/$searchRange")
+            },
+            onSearchWordChange = { newSearchWord ->
+                // SearchWord の変更を検知し、更新
+                searchWord = newSearchWord
+            }
+        )
         Spacer(modifier = Modifier.height(4.dp))
         SearchRange(
             options = listOf("300m", "500m", "1000m", "2000m", "3000m"),
             onOptionSelected = { range ->
                 // Handle the event passed from outside
+                searchRange = range
                 println("Selected Option: $range")
             }
         )
@@ -42,6 +62,7 @@ fun SearchScreen() {
             onGenreSelected = { genre ->
                 // Handle the genre selection
                 println("Selected Genre: $genre")
+                navController.navigate("SearchResultScreen/$genre/$searchRange")
             }
         )
     }
@@ -53,5 +74,6 @@ fun SearchScreen() {
 )
 @Composable
 fun PreSearchScreen() {
-    SearchScreen()
+    val navController = rememberNavController()
+    SearchScreen(navController = navController)
 }

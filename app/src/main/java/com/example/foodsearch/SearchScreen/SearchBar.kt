@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.sharp.Close
@@ -25,12 +26,16 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.rememberNavController
 import com.example.foodsearch.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchBar(modifier: Modifier = Modifier) {
-    var SearchWord by remember { mutableStateOf("") }
+fun SearchBar(modifier: Modifier = Modifier,
+              SearchWord: String,
+              onSearch: (String) -> Unit,
+              onSearchWordChange: (String) -> Unit) {
+    //var SearchWord by remember { mutableStateOf("") }
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center
@@ -38,13 +43,13 @@ fun SearchBar(modifier: Modifier = Modifier) {
         OutlinedTextField(
             value = SearchWord,
             onValueChange = {
-                SearchWord = it
+                onSearchWordChange(it)
             },
             label = { Text(stringResource(R.string.SearchWord)) },
             maxLines = 1,
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Search
+                imeAction = ImeAction.Search,
             ),
             leadingIcon = {
                 Icon(
@@ -57,10 +62,16 @@ fun SearchBar(modifier: Modifier = Modifier) {
                     Icons.Sharp.Close,
                     contentDescription = "×",
                     modifier = Modifier.clickable {
-                        SearchWord = ""
+                        onSearchWordChange("")
                     }
                 )
             },
+            keyboardActions = KeyboardActions(
+                onSearch = {
+                    // 検索アクションが発生したら外部に通知
+                    onSearch(SearchWord)
+                }
+            ),
             modifier = modifier.fillMaxWidth()
                 .padding(8.dp)
         )
@@ -73,5 +84,18 @@ fun SearchBar(modifier: Modifier = Modifier) {
 )
 @Composable
 fun PreSearchBar() {
-    SearchBar()
+    val navController = rememberNavController()
+    var searchWord by remember { mutableStateOf("") }
+
+    SearchBar(
+        SearchWord = searchWord,
+        onSearch = { newSearchWord ->
+            // 画面遷移を行う
+            navController.navigate("destination_route/$newSearchWord")
+        },
+        onSearchWordChange = { newSearchWord ->
+            // SearchWord の変更を検知し、更新
+            searchWord = newSearchWord
+        }
+    )
 }

@@ -18,10 +18,10 @@ import com.example.foodsearch.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ResultTopBar() {
+fun ResultTopBar(SearchWord: String?, onNavigateUp: () -> Unit) {
     TopAppBar(
         navigationIcon = {
-            IconButton(onClick = {}) {
+            IconButton(onClick = onNavigateUp) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = "Back"
@@ -29,7 +29,9 @@ fun ResultTopBar() {
             }
         },
         title = {
-            Text(text = stringResource(R.string.app_name))
+            if (SearchWord != null) {
+                Text(text = SearchWord)
+            }
             //検索ワードにできたらいいな
         },
         modifier = Modifier
@@ -41,5 +43,5 @@ fun ResultTopBar() {
 @Preview
 @Composable
 fun PreResultTopBar() {
-    ResultTopBar()
+    //ResultTopBar()
 }

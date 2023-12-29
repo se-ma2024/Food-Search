@@ -9,9 +9,11 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
 import com.example.foodsearch.DetailScreen.DetailScreen
 import com.example.foodsearch.SearchResultScreen.SearchResultScreen
 import com.example.foodsearch.SearchScreen.SearchScreen
+import com.example.foodsearch.navigation.MainNavHost
 import com.example.foodsearch.ui.theme.FoodSearchTheme
 
 class MainActivity : ComponentActivity() {
@@ -26,7 +28,8 @@ class MainActivity : ComponentActivity() {
                 ) {
                     //SearchScreen()
                     //SearchResultScreen()
-                    DetailScreen()
+                    //DetailScreen()
+                    MainNavHost()
                 }
             }
         }
@@ -37,6 +40,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GreetingPreview() {
     FoodSearchTheme {
-        SearchScreen()
+        val navController = rememberNavController()
+        SearchScreen(navController = navController)
     }
 }
