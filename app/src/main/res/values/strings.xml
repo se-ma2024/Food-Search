@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">FoodSearch</string>
     <string name="SearchWord">検索ワード</string>
+    <string name="SearchRange">検索範囲</string>
+    <string name="SearchRange_xxx">検索範囲: %1$s</string>
+    <string name="RestaurantDetail">店舗基本情報</string>
+    <string name="BusinessHours">営業時間</string>
+    <string name="RegularHoliday">定休日</string>
+    <string name="ShopCatchphrase">お店のキャッチ</string>
+    <string name="AverageBudget">平均予算</string>
+    <string name="Access">アクセス</string>
 </resources>
