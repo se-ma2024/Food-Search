@@ -21,10 +21,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.foodsearch.DataSource.RestaurantInfo
 import com.example.foodsearch.R
 
 @Composable
-fun SearchResultCard(restaurant: Restaurant, onCardClick: (Restaurant) -> Unit) {
+fun SearchResultCard(restaurant: RestaurantInfo, onCardClick: (RestaurantInfo) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -40,7 +41,7 @@ fun SearchResultCard(restaurant: Restaurant, onCardClick: (Restaurant) -> Unit) 
                 .padding(16.dp)
         ) {
             Text(
-                text = restaurant.name,
+                text = restaurant.name ?: "",
                 fontWeight = FontWeight.Bold,
                 fontSize = 20.sp
             )
@@ -60,7 +61,7 @@ fun SearchResultCard(restaurant: Restaurant, onCardClick: (Restaurant) -> Unit) 
             Spacer(modifier = Modifier.height(8.dp))
 
             // キャッチコピー
-            Text(text = restaurant.catchCopy)
+            Text(text = restaurant.catchPhrase ?: "")
 
             // 他の情報も必要に応じて表示できます
         }

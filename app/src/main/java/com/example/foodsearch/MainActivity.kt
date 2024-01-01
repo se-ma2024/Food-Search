@@ -36,11 +36,11 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    FoodSearchTheme {
-        val navController = rememberNavController()
-        SearchScreen(navController = navController)
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun GreetingPreview() {
+//    FoodSearchTheme {
+//        val navController = rememberNavController()
+//        SearchScreen(navController = navController)
+//    }
+//}

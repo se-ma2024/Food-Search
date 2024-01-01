@@ -14,13 +14,26 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.foodsearch.DataSource.RestaurantResponse
+import com.example.foodsearch.R
+import com.example.foodsearch.SearchResultScreen.SearchResultScreen
+import com.example.foodsearch.api.GourmetApiService
+import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+
+// SearchScreen.kt
 
 @Composable
-fun SearchScreen(navController: NavController) {
+fun SearchScreen(navController: NavController, viewModel: SearchScreenViewModel) {
     var searchWord by remember { mutableStateOf("") }
     var searchRange by remember { mutableStateOf("1000m")}
+    var range by remember { mutableStateOf(3)}
+
     Column(
         modifier = Modifier
             .fillMaxWidth(),
@@ -30,8 +43,25 @@ fun SearchScreen(navController: NavController) {
         SearchBar(
             SearchWord = searchWord,
             onSearch = {
-                // 画面遷移を行う
-                navController.navigate("SearchResultScreen/$searchWord/$searchRange")
+                viewModel.viewModelScope.launch {
+                    try {
+                        // SearchScreenViewModel の searchRestaurants を呼び出す
+                        viewModel.searchRestaurants(
+                            navController = navController,
+                            apiKey = "79e2666acd1d3353",
+                            keyword = searchWord,
+                            latitude = 34.705647748772236,
+                            longitude = 135.49483743011916,
+                            start = 1,
+                            count = 100,
+                            format = "json",
+                            range = range
+                        )
+                        navController.navigate("SearchResultScreen/$searchWord")
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
             },
             onSearchWordChange = { newSearchWord ->
                 // SearchWord の変更を検知し、更新
@@ -41,10 +71,19 @@ fun SearchScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(4.dp))
         SearchRange(
             options = listOf("300m", "500m", "1000m", "2000m", "3000m"),
-            onOptionSelected = { range ->
+            onOptionSelected = { newRange ->
                 // Handle the event passed from outside
-                searchRange = range
-                println("Selected Option: $range")
+                searchRange = newRange
+                // 更新された SearchRange に対応する range の値を設定
+                range = when (newRange) {
+                    "300m" -> 1
+                    "500m" -> 2
+                    "1000m" -> 3
+                    "2000m" -> 4
+                    "3000m" -> 5
+                    else -> 3 // デフォルトは 1000m
+                }
+                println("Selected Option: $newRange, Corresponding Range: $range")
             }
         )
         GenreButtonRow(
@@ -62,18 +101,21 @@ fun SearchScreen(navController: NavController) {
             onGenreSelected = { genre ->
                 // Handle the genre selection
                 println("Selected Genre: $genre")
-                navController.navigate("SearchResultScreen/$genre/$searchRange")
+
+                // 画面遷移
+                navController.navigate("SearchResultScreen/$genre")
             }
         )
     }
 }
 
-@Preview(
-    showBackground = true,
-    showSystemUi = true
-)
-@Composable
-fun PreSearchScreen() {
-    val navController = rememberNavController()
-    SearchScreen(navController = navController)
-}
+
+//@Preview(
+//    showBackground = true,
+//    showSystemUi = true
+//)
+//@Composable
+//fun PreSearchScreen() {
+//    val navController = rememberNavController()
+//    SearchScreen(navController = navController)
+//}
