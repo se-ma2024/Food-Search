@@ -47,13 +47,13 @@ fun RestaurantDetail(clickedRestaurant: RestaurantInfo?) {
             ) {
                 Text(stringResource(R.string.BusinessHours))
                 Text(
-                    text = clickedRestaurant?.open ?: " ~ ",
+                    text = clickedRestaurant?.open ?: "情報なし",
                     modifier = Modifier.padding(start = 8.dp)
                 )
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(text = stringResource(R.string.RegularHoliday))
                 Text(
-                    text = clickedRestaurant?.close ?: " ~ ",
+                    text = clickedRestaurant?.close ?: "情報なし",
                     modifier = Modifier.padding(start = 8.dp)
                 )
             }
@@ -66,7 +66,7 @@ fun RestaurantDetail(clickedRestaurant: RestaurantInfo?) {
                     .padding(start = 4.dp)
             )
             Text(
-                text = clickedRestaurant?.catchPhrase ?: " ~ ",
+                text = clickedRestaurant?.catchPhrase ?: "情報なし",
                 modifier = Modifier
                     .weight(2f)
                     .padding(8.dp)
@@ -80,7 +80,7 @@ fun RestaurantDetail(clickedRestaurant: RestaurantInfo?) {
                     .padding(start = 4.dp)
             )
             Text(
-                text = clickedRestaurant?.averageBudget ?: " ~ ",
+                text = clickedRestaurant?.averageBudget ?: "情報なし",
                 modifier = Modifier
                     .weight(2f)
                     .padding(8.dp)
@@ -94,7 +94,7 @@ fun RestaurantDetail(clickedRestaurant: RestaurantInfo?) {
                     .padding(start = 4.dp)
             )
             Text(
-                text = clickedRestaurant?.access ?: " ~ ",
+                text = clickedRestaurant?.access ?: "情報なし",
                 modifier = Modifier
                     .weight(2f)
                     .padding(8.dp)
