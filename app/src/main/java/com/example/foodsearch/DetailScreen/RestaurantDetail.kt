@@ -12,12 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.foodsearch.DataSource.RestaurantInfo
 import com.example.foodsearch.R
 
 @Composable
-fun RestaurantDetail(modifier: Modifier = Modifier) {
+fun RestaurantDetail(clickedRestaurant: RestaurantInfo?) {
     Column(
         modifier = Modifier
             .shadow(
@@ -42,12 +42,12 @@ fun RestaurantDetail(modifier: Modifier = Modifier) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(stringResource(R.string.BusinessHours))
                 Text(
-                    text = "月～金／11：30～14：00",
+                    text = clickedRestaurant?.open ?: " ~ ",
                     modifier = Modifier.padding(start = 8.dp)
                 )
                 Text(text = stringResource(R.string.RegularHoliday))
                 Text(
-                    text = "日",
+                    text = clickedRestaurant?.close ?: " ~ ",
                     modifier = Modifier.padding(start = 8.dp)
                 )
             }
@@ -59,7 +59,7 @@ fun RestaurantDetail(modifier: Modifier = Modifier) {
                     .weight(1f)
                     .padding(start = 4.dp)
             )
-            Text(text = "一口餃子専門店", modifier = Modifier.weight(1f))
+            Text(text = clickedRestaurant?.catchPhrase ?: " ~ ", modifier = Modifier.weight(1f))
         }
         HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
         Row() {
@@ -68,7 +68,7 @@ fun RestaurantDetail(modifier: Modifier = Modifier) {
                     .weight(1f)
                     .padding(start = 4.dp)
             )
-            Text(text = "「900円」「フリー2500円　宴会3500円」など", modifier = Modifier.weight(1f))
+            Text(text = clickedRestaurant?.averageBudget ?: " ~ ", modifier = Modifier.weight(1f))
         }
         HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
         Row() {
@@ -77,7 +77,7 @@ fun RestaurantDetail(modifier: Modifier = Modifier) {
                     .weight(1f)
                     .padding(start = 4.dp)
             )
-            Text(text = "銀座駅A2出口でて､みゆき通り右折､徒歩1分", modifier = Modifier.weight(1f))
+            Text(text = clickedRestaurant?.access ?: " ~ ", modifier = Modifier.weight(1f))
         }
 
     }
@@ -94,11 +94,11 @@ fun HorizontalDivider(modifier: Modifier = Modifier) {
     }
 }
 
-@Preview(
-    showBackground = true,
-    showSystemUi = true
-)
-@Composable
-fun PreRestaurantDetail() {
-    RestaurantDetail()
-}
+//@Preview(
+//    showBackground = true,
+//    showSystemUi = true
+//)
+//@Composable
+//fun PreRestaurantDetail() {
+//    RestaurantDetail()
+//}

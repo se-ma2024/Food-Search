@@ -2,21 +2,21 @@ package com.example.foodsearch.DetailScreen
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
+import com.example.foodsearch.DataSource.RestaurantInfo
 
 @Composable
-fun DetailScreenScrool() {
+fun DetailScreenScrool(clickedRestaurant: RestaurantInfo?) {
     LazyColumn() {
         item {
-            RestaurantName()
-            RestaurantImage()
-            RestaurantDetail()
+            RestaurantName(clickedRestaurant = clickedRestaurant)
+            RestaurantImage(clickedRestaurant = clickedRestaurant)
+            RestaurantDetail(clickedRestaurant = clickedRestaurant)
         }
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreDetailScreenScrool() {
-    DetailScreenScrool()
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreDetailScreenScrool() {
+//    DetailScreenScrool()
+//}

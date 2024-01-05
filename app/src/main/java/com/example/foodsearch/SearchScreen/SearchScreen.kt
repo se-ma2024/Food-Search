@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -12,27 +11,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import com.example.foodsearch.DataSource.RestaurantResponse
-import com.example.foodsearch.R
-import com.example.foodsearch.SearchResultScreen.SearchResultScreen
-import com.example.foodsearch.api.GourmetApiService
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 // SearchScreen.kt
 
 @Composable
 fun SearchScreen(navController: NavController, viewModel: SearchScreenViewModel) {
     var searchWord by remember { mutableStateOf("") }
-    var searchRange by remember { mutableStateOf("1000m")}
-    var range by remember { mutableStateOf(3)}
+    var searchRange by remember { mutableStateOf("1000m") }
+    var range by remember { mutableStateOf(3) }
 
     Column(
         modifier = Modifier
@@ -47,7 +37,6 @@ fun SearchScreen(navController: NavController, viewModel: SearchScreenViewModel)
                     try {
                         // SearchScreenViewModel の searchRestaurants を呼び出す
                         viewModel.searchRestaurants(
-                            navController = navController,
                             apiKey = "79e2666acd1d3353",
                             keyword = searchWord,
                             latitude = 34.705647748772236,
@@ -101,9 +90,24 @@ fun SearchScreen(navController: NavController, viewModel: SearchScreenViewModel)
             onGenreSelected = { genre ->
                 // Handle the genre selection
                 println("Selected Genre: $genre")
-
-                // 画面遷移
-                navController.navigate("SearchResultScreen/$genre")
+                // genreに基づいてAPIリクエストを実行
+                viewModel.viewModelScope.launch {
+                    try {
+                        viewModel.searchRestaurants(
+                            apiKey = "79e2666acd1d3353",
+                            keyword = genre,
+                            latitude = 34.705647748772236,
+                            longitude = 135.49483743011916,
+                            start = 1,
+                            count = 100,
+                            format = "json",
+                            range = range
+                        )
+                        navController.navigate("SearchResultScreen/$genre")
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
             }
         )
     }

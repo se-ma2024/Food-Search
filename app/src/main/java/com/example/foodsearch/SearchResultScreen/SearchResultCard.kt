@@ -15,14 +15,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
 import com.example.foodsearch.DataSource.RestaurantInfo
-import com.example.foodsearch.R
 
 @Composable
 fun SearchResultCard(restaurant: RestaurantInfo, onCardClick: (RestaurantInfo) -> Unit) {
@@ -49,7 +46,7 @@ fun SearchResultCard(restaurant: RestaurantInfo, onCardClick: (RestaurantInfo) -
 
             // イメージ画像
             Image(
-                painter = painterResource(R.drawable.ic_launcher_background),
+                painter = rememberAsyncImagePainter(restaurant.logoImage),
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -67,21 +64,3 @@ fun SearchResultCard(restaurant: RestaurantInfo, onCardClick: (RestaurantInfo) -
         }
     }
 }
-
-//@Preview
-//@Composable
-//fun PreSearchResultCard() {
-//    val restaurantList = listOf(
-//        Restaurant("Restaurant 1", R.drawable.ic_launcher_background, "Catch Copy 1"),
-//        Restaurant("Restaurant 2", R.drawable.ic_launcher_background, "Catch Copy 2"),
-//        // 他のレストランデータも同様に追加
-//    )
-//
-//    // RestaurantList を呼び出す
-//    SearchResultCardList(restaurantList = restaurantList,
-//        onCardClick = { clickedRestaurant ->
-//            // カードがクリックされたときの処理
-//            //onCardClick(clickedRestaurant)
-//        }
-//    )
-//}

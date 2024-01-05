@@ -1,32 +1,40 @@
 package com.example.foodsearch.SearchResultScreen
 
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.foodsearch.DataSource.RestaurantInfo
 import com.example.foodsearch.DataSource.RestaurantResponse
-import com.example.foodsearch.DataSource.Restaurants
-import com.example.foodsearch.R
-import com.example.foodsearch.SearchScreen.SearchScreenViewModel
-import com.example.foodsearch.api.RestaurantRepository
-import com.example.foodsearch.api.RestaurantRepositoryImpl
-import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+
+// SearchResultViewModel.kt
 
 class SearchResultViewModel : ViewModel() {
-    private val _restaurantList = mutableListOf<RestaurantInfo>()
+    private val _filteredRestaurantList = mutableStateOf<List<RestaurantInfo>>(emptyList())
+    val filteredRestaurantList: State<List<RestaurantInfo>> = _filteredRestaurantList
+    private val _selectedRestaurant = MutableLiveData<RestaurantInfo>()//クリックされたレストラン情報を管理
+    val selectedRestaurant: LiveData<RestaurantInfo> get() = _selectedRestaurant
+    fun setFilteredRestaurantList(list: List<RestaurantInfo>) {
+        _filteredRestaurantList.value = list
+    }
 
-    // restaurantListを外部に公開
-    val restaurantList: List<RestaurantInfo> get() = _restaurantList
+    // クリックされたレストラン情報を保持する変数
+    private var _clickedRestaurant: RestaurantInfo? = null
+    val clickedRestaurant: RestaurantInfo?
+        get() = _clickedRestaurant
+    // クリックされたレストラン情報をセットする関数
+    fun setClickedRestaurant(restaurantInfo: RestaurantInfo) {
+        _clickedRestaurant = restaurantInfo
+    }
 
-    // 新しいメソッド: restaurantResponseを受け取り、リストに変換して保存する
+
+    private val _restaurantList = mutableStateOf<List<RestaurantInfo>>(emptyList())
+    // restaurantResponse を受け取り、それを _restaurantList にセットするメソッド
+    // SearchResultViewModel.kt
     fun setRestaurantResponse(restaurantResponse: RestaurantResponse?) {
         val filteredRestaurantList = restaurantResponse?.results?.shops?.map { shop ->
-            // shopをRestaurantInfoに変換
+            // shop を RestaurantInfo に変換
             RestaurantInfo(
                 id = shop.id,
                 name = shop.name ?: "",
@@ -41,51 +49,9 @@ class SearchResultViewModel : ViewModel() {
         } ?: emptyList()
 
         // レストランリストを一旦クリアする
-        _restaurantList.clear()
+        _restaurantList.value = emptyList()
         // 渡された新しいリストの要素をすべて追加する
-        _restaurantList.addAll(filteredRestaurantList)
+        _restaurantList.value = filteredRestaurantList
     }
-}
 
-//class SearchResultViewModel : ViewModel() {
-//    var restaurantList by mutableStateOf<List<RestaurantInfo>>(emptyList())
-//        private set
-//
-//    private val repository = RestaurantRepositoryImpl() // RestaurantRepositoryの実装クラス
-//
-//    suspend fun searchRestaurants(apiKey: String, range: Int) {
-//        try {
-//            // repository.getRestaurants を呼び出し
-//            val result = repository.getRestaurants(
-//                key = apiKey,
-//                keyword = "your_keyword", // ここに実際の検索ワードを入れる
-//                latitude = 34.705647748772236,
-//                longitude = 135.49483743011916,
-//                start = 1,
-//                count = 100,
-//                format = "json",
-//                range = range
-//            )
-//
-//            result?.let {
-//                // レストラン情報をViewModelの変数に格納
-//                restaurantList = it.results?.shops?.mapIndexed { index, shop ->
-//                    RestaurantInfo(
-//                        id = shop.id,
-//                        name = shop.name ?: "",
-//                        nameKana = shop.nameKana ?: "",
-//                        logoImage = shop.logoImage ?: "",
-//                        catchPhrase = shop.catchPhrase ?: "",
-//                        open = shop.open ?: "",
-//                        close = shop.close ?: "",
-//                        averageBudget = shop.budget?.average ?: "",
-//                        access = shop.access ?: ""
-//                    )
-//                } ?: emptyList()
-//            }
-//
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//        }
-//    }
-//}
+}

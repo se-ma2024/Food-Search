@@ -2,32 +2,31 @@ package com.example.foodsearch.DetailScreen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.foodsearch.SearchResultScreen.ResultTopBar
+import com.example.foodsearch.SearchResultScreen.SearchResultViewModel
 
 @Composable
-fun DetailScreen(restaurantId: Int?, modifier: Modifier = Modifier,navController: NavController) {
+fun DetailScreen(navController: NavController, viewModel: SearchResultViewModel) {
+
+    val clickedRestaurant = viewModel.clickedRestaurant
+
     Column() {
         ResultTopBar(
-            SearchWord = "店舗名にしたい",
+            SearchWord = clickedRestaurant?.name ?: "店舗名",
             onNavigateUp = {
                 // バックナビゲーションがクリックされたときの処理
                 navController.navigateUp()
             }
         )
-        DetailScreenScrool()
+        DetailScreenScrool(clickedRestaurant = clickedRestaurant)
     }
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun PreDetailScreen() {
-    val navController = rememberNavController()
-    DetailScreen(1, navController = navController)
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreDetailScreen() {
+//    val navController = rememberNavController()
+//    DetailScreen(navController = navController)
+//}
