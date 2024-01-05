@@ -1,27 +1,29 @@
 package com.example.foodsearch.SearchScreen
 
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavController
 import com.example.foodsearch.DataSource.RestaurantInfo
+import com.example.foodsearch.DataSource.RestaurantResponse
 import com.example.foodsearch.SearchResultScreen.SearchResultViewModel
 import com.example.foodsearch.api.RestaurantRepository
 import com.example.foodsearch.api.RestaurantRepositoryImpl
 import kotlinx.coroutines.launch
 
-class SearchScreenViewModel : ViewModel() {
-    private val repository = RestaurantRepositoryImpl()
-    private val viewModel = SearchResultViewModel()
+// SearchScreenViewModel.kt
 
-    // レストラン情報を保存する変数
-    var restaurantList by mutableStateOf<List<RestaurantInfo>>(emptyList())
-        private set
+class SearchScreenViewModel(
+    private val repository: RestaurantRepository,
+    private val searchResultViewModel: SearchResultViewModel
+) : ViewModel() {
+
+    private val _restaurantList = mutableStateOf<List<RestaurantInfo>>(emptyList())
+    val restaurantList: State<List<RestaurantInfo>> = _restaurantList
 
     suspend fun searchRestaurants(
-        navController: NavController,
         apiKey: String,
         keyword: String,
         latitude: Double,
@@ -44,28 +46,35 @@ class SearchScreenViewModel : ViewModel() {
                     range = range
                 )
 
-                result?.let {
-                    val filteredList = it.results?.shops?.map { shop ->
-                        RestaurantInfo(
-                            id = shop.id,
-                            name = shop.name ?: "",
-                            nameKana = shop.nameKana ?: "",
-                            logoImage = shop.logoImage ?: "",
-                            catchPhrase = shop.catchPhrase ?: "",
-                            open = shop.open ?: "",
-                            close = shop.close ?: "",
-                            averageBudget = shop.budget?.average ?: "",
-                            access = shop.access ?: ""
-                        )
-                    } ?: emptyList()
+                result?.let { results ->
+                    val shopList = results.results.shops ?: emptyList()
+                    val filteredList = shopList.mapNotNull { shop ->
+                        createRestaurantInfo(shop)
+                    }
 
-                    restaurantList = filteredList
-                    viewModel.setRestaurantResponse(it)
-                    navController.navigate("SearchResultScreen/$keyword")
+                    _restaurantList.value = filteredList
+
+                    // SearchResultViewModelのインスタンスメソッドを呼び出す
+                    searchResultViewModel.setRestaurantResponse(results)
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
+    }
+
+    private fun createRestaurantInfo(shop: RestaurantResponse.Results.Shop): RestaurantInfo? {
+        return RestaurantInfo(
+            id = shop.id,
+            name = shop.name,
+            nameKana = shop.nameKana,
+            logoImage = shop.logoImage,
+            lMobileImage = shop.photo?.mobile?.l,
+            catchPhrase = shop.catchPhrase,
+            open = shop.open,
+            close = shop.close,
+            averageBudget = shop.budget?.average,
+            access = shop.access
+        )
     }
 }

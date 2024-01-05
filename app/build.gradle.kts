@@ -81,4 +81,7 @@ dependencies {
     implementation("com.squareup.moshi:moshi:1.12.0")
     implementation("com.squareup.moshi:moshi-kotlin:1.12.0")
 
+    implementation("io.coil-kt:coil:2.2.2")
+    implementation("io.coil-kt:coil-compose:2.2.2")
+
 }

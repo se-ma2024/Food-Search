@@ -212,6 +212,7 @@ data class RestaurantInfo(
     val name: String?,
     val nameKana: String?,
     val logoImage: String?,
+    val lMobileImage: String?,
     val catchPhrase: String?,
     val open: String?,
     val close: String?,

@@ -9,21 +9,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.foodsearch.R
+import coil.compose.rememberAsyncImagePainter
+import com.example.foodsearch.DataSource.RestaurantInfo
 
 @Composable
-fun RestaurantImage(modifier: Modifier = Modifier) {
+fun RestaurantImage(clickedRestaurant: RestaurantInfo?) {
     Box(
-        modifier = modifier
+        modifier = Modifier
             .shadow(
                 elevation = 1.dp,
             )
     ) {
         Image(
-            painter = painterResource(R.drawable.ic_launcher_background),
+            painter = rememberAsyncImagePainter(clickedRestaurant?.lMobileImage),
             contentDescription = null,
             modifier = Modifier
                 .fillMaxWidth()
@@ -34,11 +33,11 @@ fun RestaurantImage(modifier: Modifier = Modifier) {
     }
 }
 
-@Preview(
-    showSystemUi = true,
-    showBackground = true
-)
-@Composable
-fun PreDetailImange() {
-    RestaurantImage()
-}
+//@Preview(
+//    showSystemUi = true,
+//    showBackground = true
+//)
+//@Composable
+//fun PreDetailImange() {
+//    RestaurantImage()
+//}
