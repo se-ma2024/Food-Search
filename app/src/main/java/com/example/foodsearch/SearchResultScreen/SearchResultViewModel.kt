@@ -23,15 +23,11 @@ class SearchResultViewModel : ViewModel() {
     private var _clickedRestaurant: RestaurantInfo? = null
     val clickedRestaurant: RestaurantInfo?
         get() = _clickedRestaurant
-
     // クリックされたレストラン情報をセットする関数
     fun setClickedRestaurant(restaurantInfo: RestaurantInfo) {
         _clickedRestaurant = restaurantInfo
     }
-
-
     private val _restaurantList = mutableStateOf<List<RestaurantInfo>>(emptyList())
-
     // restaurantResponse を受け取り、それを _restaurantList にセットするメソッド
     // SearchResultViewModel.kt
     fun setRestaurantResponse(restaurantResponse: RestaurantResponse?) {
