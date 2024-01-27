@@ -1,7 +1,10 @@
 package com.example.foodsearch.SearchResultScreen
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,9 +20,7 @@ fun SearchResultScreen(
     viewModel: SearchResultViewModel,
     navController: NavController
 ) {
-
     val restaurantList = viewModel.filteredRestaurantList.value
-
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
@@ -30,30 +31,43 @@ fun SearchResultScreen(
                 navController.navigateUp()
             },
         )
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
 
-        // レストラン情報を表示する
-        if (restaurantList.isNotEmpty()) {
-            SearchResultCardList(restaurantList = restaurantList) { clickedRestaurant ->
-                // カードがクリックされたときの処理
-                // クリックされたレストラン情報をViewModelに保存
-                viewModel.setClickedRestaurant(clickedRestaurant)
-                // 詳細画面に遷移
-                navController.navigate("DetailScreen")
+            if (restaurantList.isNotEmpty()) {
+                SearchResultCardList(restaurantList = restaurantList) { clickedRestaurant ->
+                    viewModel.setClickedRestaurant(clickedRestaurant)
+                    navController.navigate("DetailScreen")
+                }
+            } else {
+                NoResultsMessage()
             }
-        } else {
-            // レストラン情報がない場合の表示
-            Text(
-                "該当するレストランがありません",
-                modifier = Modifier.padding(top = 16.dp)
-            )
         }
     }
 }
 
+@Composable
+fun NoResultsMessage() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "該当するレストランがありません",
+            style = MaterialTheme.typography.labelMedium,
+            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
+        )
+    }
+}
 
 @Preview
 @Composable
 fun PreSearchResultScreen() {
     val navController = rememberNavController()
-    //SearchResultScreen(navController = navController)
+    // SearchResultScreen(SearchWord = "Sushi", viewModel = SearchResultViewModel(), navController = navController)
 }
