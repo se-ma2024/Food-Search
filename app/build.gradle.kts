@@ -84,4 +84,7 @@ dependencies {
     implementation("io.coil-kt:coil:2.2.2")
     implementation("io.coil-kt:coil-compose:2.2.2")
 
+    implementation("com.google.accompanist:accompanist-permissions:0.27.1")
+    implementation("com.google.android.gms:play-services-location:21.0.1")
+
 }

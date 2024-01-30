@@ -1,5 +1,6 @@
 package com.example.foodsearch.SearchScreen
 
+import LocationSensor
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,7 +20,11 @@ import kotlinx.coroutines.launch
 // SearchScreen.kt
 
 @Composable
-fun SearchScreen(navController: NavController, viewModel: SearchScreenViewModel) {
+fun SearchScreen(
+    navController: NavController,
+    viewModel: SearchScreenViewModel,
+    locationSensor: LocationSensor
+) {
     var searchWord by remember { mutableStateOf("") }
     var searchRange by remember { mutableStateOf("1000m") }
     var range by remember { mutableStateOf(3) }
@@ -35,12 +40,15 @@ fun SearchScreen(navController: NavController, viewModel: SearchScreenViewModel)
             onSearch = {
                 viewModel.viewModelScope.launch {
                     try {
+                        val location = locationSensor.getLocation()
                         // SearchScreenViewModel の searchRestaurants を呼び出す
                         viewModel.searchRestaurants(
                             apiKey = "79e2666acd1d3353",
                             keyword = searchWord,
-                            latitude = 34.705647748772236,
-                            longitude = 135.49483743011916,
+//                            latitude = 34.705647748772236,
+//                            longitude = 135.49483743011916,
+                            latitude = location?.latitude ?: 0.0, // ダミーの緯度経度
+                            longitude = location?.longitude ?: 0.0,
                             start = 1,
                             count = 100,
                             format = "json",
@@ -93,11 +101,14 @@ fun SearchScreen(navController: NavController, viewModel: SearchScreenViewModel)
                 // genreに基づいてAPIリクエストを実行
                 viewModel.viewModelScope.launch {
                     try {
+                        val location = locationSensor.getLocation()
                         viewModel.searchRestaurants(
                             apiKey = "79e2666acd1d3353",
                             keyword = genre,
-                            latitude = 34.705647748772236,
-                            longitude = 135.49483743011916,
+                            latitude = location?.latitude ?: 0.0, // ダミーの緯度経度
+                            longitude = location?.longitude ?: 0.0,
+//                            latitude = 34.705647748772236,
+//                            longitude = 135.49483743011916,
                             start = 1,
                             count = 100,
                             format = "json",
