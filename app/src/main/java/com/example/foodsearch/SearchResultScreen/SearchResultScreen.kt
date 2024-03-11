@@ -21,7 +21,6 @@ fun SearchResultScreen(
     navController: NavController
 ) {
     val restaurantList = viewModel.filteredRestaurantList.value
-
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -36,7 +35,6 @@ fun SearchResultScreen(
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-
             if (restaurantList.isNotEmpty()) {
                 SearchResultCardList(restaurantList = restaurantList) { clickedRestaurant ->
                     viewModel.setClickedRestaurant(clickedRestaurant)

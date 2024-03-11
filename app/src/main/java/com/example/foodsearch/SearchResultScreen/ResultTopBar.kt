@@ -13,7 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -42,10 +41,4 @@ fun ResultTopBar(SearchWord: String?, onNavigateUp: () -> Unit) {
             .fillMaxWidth()
             .shadow(4.dp),
     )
-}
-
-@Preview
-@Composable
-fun PreResultTopBar() {
-    //ResultTopBar()
 }

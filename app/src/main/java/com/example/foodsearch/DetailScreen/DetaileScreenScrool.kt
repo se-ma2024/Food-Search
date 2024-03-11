@@ -14,9 +14,3 @@ fun DetailScreenScrool(clickedRestaurant: RestaurantInfo?) {
         }
     }
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun PreDetailScreenScrool() {
-//    DetailScreenScrool()
-//}

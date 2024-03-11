@@ -17,8 +17,6 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import kotlinx.coroutines.launch
 
-// SearchScreen.kt
-
 @Composable
 fun SearchScreen(
     navController: NavController,
@@ -41,13 +39,12 @@ fun SearchScreen(
                 viewModel.viewModelScope.launch {
                     try {
                         val location = locationSensor.getLocation()
-                        // SearchScreenViewModel の searchRestaurants を呼び出す
                         viewModel.searchRestaurants(
                             apiKey = "79e2666acd1d3353",
                             keyword = searchWord,
 //                            latitude = 34.705647748772236,
 //                            longitude = 135.49483743011916,
-                            latitude = location?.latitude ?: 0.0, // ダミーの緯度経度
+                            latitude = location?.latitude ?: 0.0,
                             longitude = location?.longitude ?: 0.0,
                             start = 1,
                             count = 100,
@@ -61,7 +58,6 @@ fun SearchScreen(
                 }
             },
             onSearchWordChange = { newSearchWord ->
-                // SearchWord の変更を検知し、更新
                 searchWord = newSearchWord
             }
         )
@@ -69,16 +65,14 @@ fun SearchScreen(
         SearchRange(
             options = listOf("300m", "500m", "1000m", "2000m", "3000m"),
             onOptionSelected = { newRange ->
-                // Handle the event passed from outside
                 searchRange = newRange
-                // 更新された SearchRange に対応する range の値を設定
                 range = when (newRange) {
                     "300m" -> 1
                     "500m" -> 2
                     "1000m" -> 3
                     "2000m" -> 4
                     "3000m" -> 5
-                    else -> 3 // デフォルトは 1000m
+                    else -> 3
                 }
                 println("Selected Option: $newRange, Corresponding Range: $range")
             }
@@ -96,9 +90,7 @@ fun SearchScreen(
                 "デザート"
             ),
             onGenreSelected = { genre ->
-                // Handle the genre selection
                 println("Selected Genre: $genre")
-                // genreに基づいてAPIリクエストを実行
                 viewModel.viewModelScope.launch {
                     try {
                         val location = locationSensor.getLocation()
@@ -123,14 +115,3 @@ fun SearchScreen(
         )
     }
 }
-
-
-//@Preview(
-//    showBackground = true,
-//    showSystemUi = true
-//)
-//@Composable
-//fun PreSearchScreen() {
-//    val navController = rememberNavController()
-//    SearchScreen(navController = navController)
-//}

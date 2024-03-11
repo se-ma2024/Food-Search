@@ -32,12 +32,3 @@ fun RestaurantImage(clickedRestaurant: RestaurantInfo?) {
         )
     }
 }
-
-//@Preview(
-//    showSystemUi = true,
-//    showBackground = true
-//)
-//@Composable
-//fun PreDetailImange() {
-//    RestaurantImage()
-//}

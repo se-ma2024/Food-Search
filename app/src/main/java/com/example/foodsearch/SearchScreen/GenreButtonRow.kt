@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -24,26 +23,4 @@ fun GenreButtonRow(
             )
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreGenreButtonRow() {
-    GenreButtonRow(
-        genres = listOf(
-            "和食",
-            "ラーメン",
-            "イタリアン",
-            "フレンチ",
-            "アメリカン",
-            "中華料理",
-            "カフェ",
-            "居酒屋",
-            "デザート"
-        ),
-        onGenreSelected = { genre ->
-            // Handle the genre selection
-            println("Selected Genre: $genre")
-        }
-    )
 }

@@ -48,11 +48,3 @@ fun RestaurantName(clickedRestaurant: RestaurantInfo?) {
         )
     }
 }
-
-//@Preview(
-//    showBackground = true,
-//)
-//@Composable
-//fun PreRestaurantName() {
-//    RestaurantName()
-//}

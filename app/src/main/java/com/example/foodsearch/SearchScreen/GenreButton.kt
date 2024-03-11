@@ -6,7 +6,6 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -22,18 +21,4 @@ fun GenreButton(
     ) {
         Text(text = genre)
     }
-}
-
-@Preview(
-    showBackground = true
-)
-@Composable
-fun PreGenreButton() {
-    GenreButton(
-        genre = "ラーメン",
-        onGenreSelected = { genre ->
-            // Handle the genre selection
-            println("Selected Genre: $genre")
-        }
-    )
 }

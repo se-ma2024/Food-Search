@@ -279,43 +279,52 @@ data class Restaurants(
     val shopDetailMemo: String?,
     val couponUrls: CouponUrls?
 )
+
 data class Area(
     val code: String?,
     val name: String?
 )
+
 data class Location(
     val lat: Double?,
     val lng: Double?
 )
+
 data class Genre(
     val code: String?,
     val name: String?,
     val catchPhrase: String?,
     val subGenre: SubGenre?
 )
+
 data class SubGenre(
     val code: String?,
     val name: String?
 )
+
 data class Budget(
     val code: String?,
     val name: String?,
     val average: String?,
     val budgetMemo: String?
 )
+
 data class Urls(
     val pc: String?,
     val mobile: String?
 )
+
 data class Photo(
     val pc: PhotoUrls?,
     val mobile: PhotoUrls?
 )
+
 data class PhotoUrls(
     val l: String?,
     val m: String?,
     val s: String?
 )
+
 data class CouponUrls(
     val pc: String?,
     val sp: String?

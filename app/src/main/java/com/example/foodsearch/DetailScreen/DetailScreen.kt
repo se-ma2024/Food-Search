@@ -15,18 +15,9 @@ fun DetailScreen(navController: NavController, viewModel: SearchResultViewModel)
         ResultTopBar(
             SearchWord = clickedRestaurant?.name ?: "店舗名",
             onNavigateUp = {
-                // バックナビゲーションがクリックされたときの処理
                 navController.navigateUp()
             }
         )
         DetailScreenScrool(clickedRestaurant = clickedRestaurant)
     }
 }
-
-
-//@Preview(showBackground = true)
-//@Composable
-//fun PreDetailScreen() {
-//    val navController = rememberNavController()
-//    DetailScreen(navController = navController)
-//}

@@ -39,7 +39,6 @@ fun SearchResultCard(restaurant: RestaurantInfo, onCardClick: (RestaurantInfo) -
                 .fillMaxWidth()
                 .clip(shape = RoundedCornerShape(16.dp))
         ) {
-            // 画像
             Image(
                 painter = rememberAsyncImagePainter(restaurant.lMobileImage),
                 contentDescription = null,
@@ -49,8 +48,6 @@ fun SearchResultCard(restaurant: RestaurantInfo, onCardClick: (RestaurantInfo) -
                     .clip(shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)),
                 contentScale = ContentScale.Crop
             )
-
-            // レストラン名とキャッチフレーズ
             Column(
                 modifier = Modifier
                     .fillMaxWidth()

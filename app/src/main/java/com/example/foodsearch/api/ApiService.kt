@@ -14,9 +14,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
-
-
-//Retrofitインターフェースの作成
 interface GourmetApiService {
     @GET("gourmet/v1/")
     suspend fun searchRestaurants(
@@ -30,8 +27,6 @@ interface GourmetApiService {
         @Query("range") range: Int?
     ): Response<RestaurantResponse>
 }
-
-//Repository
 interface RestaurantRepository {
     suspend fun getRestaurants(
         key: String,

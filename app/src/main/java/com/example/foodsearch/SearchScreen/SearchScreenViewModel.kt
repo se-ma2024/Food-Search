@@ -1,19 +1,14 @@
 package com.example.foodsearch.SearchScreen
 
 import androidx.compose.runtime.State
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.foodsearch.DataSource.RestaurantInfo
 import com.example.foodsearch.DataSource.RestaurantResponse
 import com.example.foodsearch.SearchResultScreen.SearchResultViewModel
 import com.example.foodsearch.api.RestaurantRepository
-import com.example.foodsearch.api.RestaurantRepositoryImpl
 import kotlinx.coroutines.launch
-
-// SearchScreenViewModel.kt
 
 class SearchScreenViewModel(
     private val repository: RestaurantRepository,
@@ -51,10 +46,7 @@ class SearchScreenViewModel(
                     val filteredList = shopList.mapNotNull { shop ->
                         createRestaurantInfo(shop)
                     }
-
                     _restaurantList.value = filteredList
-
-                    // SearchResultViewModelのインスタンスメソッドを呼び出す
                     searchResultViewModel.setRestaurantResponse(results)
                 }
             } catch (e: Exception) {

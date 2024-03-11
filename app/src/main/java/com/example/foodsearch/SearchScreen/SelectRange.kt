@@ -24,7 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.foodsearch.R
 
@@ -66,17 +65,15 @@ fun SearchRange(
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.background)
             .clip(MaterialTheme.shapes.medium)
-            .padding(top = 56.dp) // Adjust the top padding to position the dropdown
+            .padding(top = 56.dp)
     ) {
         options.forEach { range ->
-            // DropdownMenuItem
             DropdownMenuItem(
                 text = { Text(text = range) },
                 onClick = {
                     rangeText = range
                     expanded = false
                     keyboardController?.hide()
-                    // Execute the event handling passed from outside
                     onOptionSelected(range)
                 },
                 modifier = Modifier
@@ -85,17 +82,4 @@ fun SearchRange(
             )
         }
     }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true)
-@Composable
-fun SearchRangePreview() {
-    SearchRange(
-        options = listOf("300m", "500m", "1000m", "2000m", "3000m"),
-        onOptionSelected = { range ->
-            // Handle the event passed from outside
-            println("Selected Option: $range")
-        }
-    )
 }

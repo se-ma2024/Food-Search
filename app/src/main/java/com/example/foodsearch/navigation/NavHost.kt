@@ -15,7 +15,6 @@ import com.example.foodsearch.api.RestaurantRepositoryImpl
 @Composable
 fun MainNavHost(locationSensor: LocationSensor) {
     val navController = rememberNavController()
-
     val searchResultViewModel = SearchResultViewModel()
     val repository = RestaurantRepositoryImpl(searchResultViewModel = searchResultViewModel)
     val viewModel = SearchScreenViewModel(repository, searchResultViewModel)
